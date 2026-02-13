@@ -1,4 +1,4 @@
-# Multiplayer Leaderboard System (GoComet Take-Home)
+# Multiplayer Leaderboard System
 
 ## Overview
 A scalable multiplayer gaming leaderboard built with FastAPI, PostgreSQL, and Redis.  
