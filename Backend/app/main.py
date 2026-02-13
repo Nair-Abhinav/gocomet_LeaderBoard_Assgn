@@ -1,19 +1,11 @@
 from fastapi import FastAPI, Depends
-from sqlalchemy import text
-from db import engine
-from models import Base
+from db import get_db
+from schemas import SubmitScoreRequest
+from crud import submit_score
 
 app = FastAPI()
 
-@app.on_event("startup")
-async def on_startup():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-@app.get("/db-health")
-async def db_health():
-    return {"db": "connected"}
+@app.post("/api/leaderboard/submit")
+async def submit_score_api(payload: SubmitScoreRequest, db=Depends(get_db)):
+    await submit_score(db, payload.user_id, payload.score, payload.game_mode)
+    return {"status": "ok"}
